@@ -1,3 +1,7 @@
+# This bug might be fixed after upgrade SQLite to 3.27.2.
+
+
+
 This repo show a bug of SQLite.
 
 tldr: `UNION ALL` will not merge the data in different schemas in the moment that one of schema is committed but the another not. BUT, `UNION` will.
