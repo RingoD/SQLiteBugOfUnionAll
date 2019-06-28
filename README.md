@@ -7,9 +7,9 @@ tldr: `UNION ALL` will not merge the data in different schemas in the moment tha
 ### Preparation
 1. Prepare a database named "OLD"
 	1. Create a table for "OLD": `CREATE TABLE old(i INTEGER)`
-	2 Insert values into "OLD" to make it large enough: `INSERT INTO old VALUES(?1)`
+	2. Insert values into "OLD" to make it large enough: `INSERT INTO old VALUES(?1)`
 2. Prepare a database named "NEW"
-	1 Create a table for "NEW": `CREATE TABLE new(i INTEGER)`
+	1. Create a table for "NEW": `CREATE TABLE new(i INTEGER)`
 
 ### Migration
 For thread 1,
