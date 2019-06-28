@@ -19,7 +19,11 @@ sqlite3* prepareHandle(const char* path)
 {
     sqlite3* handle;
     assert(sqlite3_open(path, &handle) == SQLITE_OK);
-    assert(sqlite3_exec(handle, "PRAGMA main.journal_mode=WAL", NULL, NULL, NULL) == SQLITE_OK);
+    int rc;
+    do {
+        rc = sqlite3_exec(handle, "PRAGMA main.journal_mode=WAL", NULL, NULL, NULL);
+    } while (rc == SQLITE_BUSY);
+    assert(rc == SQLITE_OK);
     assert(sqlite3_exec(handle, "PRAGMA main.synchronous=NORMAL", NULL, NULL, NULL) == SQLITE_OK);
     return handle;
 }
@@ -91,6 +95,7 @@ int main()
     });
     
     {
+        NSLog(@"Migrating");
         //migration
         sqlite3* handle = prepareHandle(newDatabase);
         assert(sqlite3_exec(handle, attachSQL.UTF8String, NULL, NULL, NULL) == SQLITE_OK);
@@ -107,6 +112,8 @@ int main()
             }
             assert(sqlite3_exec(handle, "COMMIT", NULL, NULL, NULL) == SQLITE_OK);
         }
+        
+        NSLog(@"Migrated");
     }
     
     return 0;
